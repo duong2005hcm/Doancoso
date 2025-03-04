@@ -1,19 +1,30 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StartGameManager : MonoBehaviour
 {
-    void Update()
+    private bool gameStarted = false;
+
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L) || (Input.touchCount > 0))
+        if (SceneManager.GetActiveScene().name == "Gameplay" && !gameStarted)
         {
             StartGame();
+            gameStarted = true;
         }
     }
-    private void StartGame()
-    {
-        SpawnManager.Instance.StartScript();
-        MetersManager.Instance.StartScript();
-        enabled = false;
-    }
-}
 
+    public void StartGame()
+    {
+        if (SpawnManager.Instance != null)
+        {
+            SpawnManager.Instance.StartScript();
+        }
+
+        if (MetersManager.Instance != null)
+        {
+            MetersManager.Instance.StartScript();
+        }
+    }
+
+}

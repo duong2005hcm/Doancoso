@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 49d419edd2e3ca44192aaf84399a5551
+guid: 243e313aa626ec445a63a2cb0627a7d1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1577122934468172762
-    second: tree-001_0
+      213: 9178653688575561098
+    second: icons8-pause-100 (1)_0
+  - first:
+      213: -3013656924269399578
+    second: icons8-pause-100 (1)_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +49,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -97,7 +100,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: WebGL
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -110,7 +113,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Android
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -126,13 +129,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tree-001_0
+      name: icons8-pause-100 (1)_0
       rect:
         serializedVersion: 2
-        x: 30
-        y: 558
-        width: 1606
-        height: 1447
+        x: 22
+        y: 14
+        width: 22
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +144,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 62427eb0c0fec1ae0800000000000000
-      internalID: -1577122934468172762
+      spriteID: a8d00ef26e0216f70800000000000000
+      internalID: 9178653688575561098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: icons8-pause-100 (1)_1
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 14
+        width: 22
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e1b6029ef65d26d0800000000000000
+      internalID: -3013656924269399578
       vertices: []
       indices: 
       edges: []
@@ -151,7 +176,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +186,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      tree-001_0: -1577122934468172762
+      icons8-pause-100 (1)_0: 9178653688575561098
+      icons8-pause-100 (1)_1: -3013656924269399578
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
