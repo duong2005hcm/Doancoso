@@ -13,7 +13,7 @@ public class PlayerCollision : MonoBehaviour
                     Destroy(collision.gameObject);
                     break;
 
-                case EntityType.EntityTypes.Tree:
+                case EntityType.EntityTypes.People:
                     FinishGameManager.Instance.FinishGame();
                     break;
             }

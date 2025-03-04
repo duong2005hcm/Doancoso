@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 49d419edd2e3ca44192aaf84399a5551
+guid: ad5bdd0c15816bb4db16d111c6df1736
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1577122934468172762
-    second: tree-001_0
+      213: 562647847009514483
+    second: icons8-restart-100 (1)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -97,7 +97,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: WebGL
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -110,7 +110,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Android
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tree-001_0
+      name: icons8-restart-100 (1)_0
       rect:
         serializedVersion: 2
-        x: 30
-        y: 558
-        width: 1606
-        height: 1447
+        x: 14
+        y: 14
+        width: 72
+        height: 73
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 62427eb0c0fec1ae0800000000000000
-      internalID: -1577122934468172762
+      spriteID: 3f3f3ae5c3deec700800000000000000
+      internalID: 562647847009514483
       vertices: []
       indices: 
       edges: []
@@ -160,8 +160,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      tree-001_0: -1577122934468172762
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

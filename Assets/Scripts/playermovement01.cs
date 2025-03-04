@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class playermovement : MonoBehaviour
 {
@@ -7,7 +7,8 @@ public class playermovement : MonoBehaviour
 
 
     [SerializeField] private float playerSpeed = 250;
-    [SerializeField] private float Xmargin = 2;
+    [SerializeField] private float xMargin = 2;
+    [SerializeField] private float yMarginForInput = 2000;
 
     private void Awake()
     {
@@ -41,24 +42,28 @@ public class playermovement : MonoBehaviour
                 Vector3 touchPosition = Input.touches[0].position;
                 touchPosition = mainCamera.ScreenToWorldPoint(touchPosition);
 
-                if (touchPosition.x > 0)
+                if (touchPosition.y < yMarginForInput)
                 {
-                    dirX = 1;
-                    transform.rotation = Quaternion.Euler(0, 0, -30);
 
-                }
-                else
-                {
-                    dirX = -1;
-                    transform.rotation = Quaternion.Euler(0, 0, 30);
+                    if (touchPosition.x > 0)
+                    {
+                        dirX = 1;
+                        transform.rotation = Quaternion.Euler(0, 0, -30);
 
+                    }
+                    else
+                    {
+                        dirX = -1;
+                        transform.rotation = Quaternion.Euler(0, 0, 30);
+
+                    }
                 }
             }
         }
-        rb.linearVelocity = new Vector2(dirX * playerSpeed * Time.deltaTime, 0);
+        rb.linearVelocity = new Vector2(dirX * playerSpeed * Time.fixedDeltaTime, 0);
 
         float posX = transform.position.x;
-        posX = Mathf.Clamp(posX, -Xmargin, Xmargin);
+        posX = Mathf.Clamp(posX, -xMargin, xMargin);
         transform.position = new Vector3(posX, transform.position.y, transform.position.z);
     }
 }

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 49d419edd2e3ca44192aaf84399a5551
+guid: fd243e6c3fc481f4ab88c8b0a119ad3e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1577122934468172762
-    second: tree-001_0
+      213: 7653067396916521645
+    second: front_and_back_pixelart_idle_animation_by_xmissscribbles_dg1ew0d_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -97,7 +97,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: WebGL
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -110,7 +110,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Android
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -126,23 +126,114 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tree-001_0
+      name: front_and_back_pixelart_idle_animation_by_xmissscribbles_dg1ew0d_0
       rect:
         serializedVersion: 2
-        x: 30
-        y: 558
-        width: 1606
-        height: 1447
+        x: 614
+        y: 149
+        width: 332
+        height: 587
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
-      outline: []
+      outline:
+      - - {x: -43, y: -292.5}
+        - {x: -43, y: -279.5}
+        - {x: -30, y: -279.5}
+        - {x: -28, y: -277.5}
+        - {x: -15, y: -249.5}
+        - {x: -13, y: -247.5}
+        - {x: -13, y: -234.5}
+        - {x: 13, y: -247.5}
+        - {x: 15, y: -249.5}
+        - {x: 28, y: -249.5}
+        - {x: 28, y: -277.5}
+        - {x: 30, y: -279.5}
+        - {x: 43, y: -279.5}
+        - {x: 43, y: -292.5}
+        - {x: 44, y: -293.5}
+        - {x: 61, y: -293.5}
+        - {x: 77, y: -277.5}
+        - {x: 90, y: -249.5}
+        - {x: 92, y: -247.5}
+        - {x: 105, y: -219.5}
+        - {x: 107, y: -217.5}
+        - {x: 107, y: -204.5}
+        - {x: 120, y: -204.5}
+        - {x: 122, y: -202.5}
+        - {x: 122, y: -159.5}
+        - {x: 135, y: -159.5}
+        - {x: 137, y: -157.5}
+        - {x: 137, y: -144.5}
+        - {x: 150, y: -144.5}
+        - {x: 152, y: -142.5}
+        - {x: 152, y: -129.5}
+        - {x: 165, y: -129.5}
+        - {x: 166, y: -128.5}
+        - {x: 166, y: -51.5}
+        - {x: 165, y: -50.5}
+        - {x: 152, y: -50.5}
+        - {x: 152, y: 7.5}
+        - {x: 150, y: 9.5}
+        - {x: 137, y: 9.5}
+        - {x: 137, y: 37.5}
+        - {x: 135, y: 39.5}
+        - {x: 122, y: 39.5}
+        - {x: 122, y: 202.5}
+        - {x: 120, y: 204.5}
+        - {x: 107, y: 204.5}
+        - {x: 107, y: 232.5}
+        - {x: 105, y: 234.5}
+        - {x: 92, y: 234.5}
+        - {x: 92, y: 262.5}
+        - {x: 90, y: 264.5}
+        - {x: 77, y: 264.5}
+        - {x: 77, y: 277.5}
+        - {x: 75, y: 279.5}
+        - {x: 62, y: 279.5}
+        - {x: 62, y: 292.5}
+        - {x: 61, y: 293.5}
+        - {x: -61, y: 293.5}
+        - {x: -62, y: 292.5}
+        - {x: -62, y: 279.5}
+        - {x: -75, y: 279.5}
+        - {x: -77, y: 277.5}
+        - {x: -77, y: 264.5}
+        - {x: -90, y: 264.5}
+        - {x: -92, y: 262.5}
+        - {x: -105, y: 234.5}
+        - {x: -107, y: 232.5}
+        - {x: -120, y: 204.5}
+        - {x: -122, y: 202.5}
+        - {x: -122, y: 39.5}
+        - {x: -135, y: 39.5}
+        - {x: -137, y: 37.5}
+        - {x: -150, y: 9.5}
+        - {x: -152, y: 7.5}
+        - {x: -152, y: -50.5}
+        - {x: -165, y: -50.5}
+        - {x: -166, y: -51.5}
+        - {x: -166, y: -128.5}
+        - {x: -135, y: -159.5}
+        - {x: -122, y: -159.5}
+        - {x: -122, y: -202.5}
+        - {x: -120, y: -204.5}
+        - {x: -107, y: -204.5}
+        - {x: -107, y: -217.5}
+        - {x: -105, y: -219.5}
+        - {x: -92, y: -219.5}
+        - {x: -92, y: -247.5}
+        - {x: -90, y: -249.5}
+        - {x: -77, y: -249.5}
+        - {x: -77, y: -277.5}
+        - {x: -61, y: -293.5}
+        - {x: -44, y: -293.5}
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0.696
       bones: []
-      spriteID: 62427eb0c0fec1ae0800000000000000
-      internalID: -1577122934468172762
+      spriteID: daa2553ff38253a60800000000000000
+      internalID: 7653067396916521645
       vertices: []
       indices: 
       edges: []
@@ -151,7 +242,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 6bb2717fd1e552e4ea00d231856bc301
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +252,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      tree-001_0: -1577122934468172762
+      front_and_back_pixelart_idle_animation_by_xmissscribbles_dg1ew0d_0: 7653067396916521645
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

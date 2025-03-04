@@ -17,10 +17,10 @@ public class PlayerMoney : MonoBehaviour
     public void AddMoney(int moneyToAdd)
     {
         currentMoney += moneyToAdd;
-    }    
+    }
 
     public void SaveMoney()
     {
         PlayerPrefs.SetInt("money", currentMoney);
-    }    
+    }
 }

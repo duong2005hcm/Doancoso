@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class FinishGameManager : MonoBehaviour
@@ -17,11 +17,18 @@ public class FinishGameManager : MonoBehaviour
         Time.timeScale = 0;
         gameOverPanel.SetActive(true);
         PlayerMoney.Instance.SaveMoney();
+
     }
 
     public void RestartGame()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("Gameplay");
+    }
+
+    public void ReturnToMainMenu()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("MainMenu");
     }
 }
