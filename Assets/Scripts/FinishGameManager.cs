@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class FinishGameManager : MonoBehaviour
 {
     public static FinishGameManager Instance;
 
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private TextMeshProUGUI metersText;
 
     private void Awake()
     {
@@ -18,17 +20,22 @@ public class FinishGameManager : MonoBehaviour
         gameOverPanel.SetActive(true);
         PlayerMoney.Instance.SaveMoney();
 
+        if (MetersManager.Instance != null)
+        {
+            float meters = MetersManager.Instance.GetMetersTraveled();
+            metersText.text = "Quãng đường đã chạy: " + (int)meters + " m";
+        }
     }
 
     public void RestartGame()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("Gameplay");
+        SceneManager.LoadScene("Gameplay", LoadSceneMode.Single);
     }
 
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }
