@@ -45,13 +45,14 @@ public class PauseManager : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("Gameplay");
+        SceneManager.LoadScene("Gameplay", LoadSceneMode.Single);
+
     }
 
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 
     public void OpenSettings()

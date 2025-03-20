@@ -535,7 +535,23 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      freepik__background__84207_0: -4800020650960513174
+      freepik__background__84207_1: -2834629647022054145
+      freepik__background__84207_10: 8357830473070917224
+      freepik__background__84207_11: 6469795873317657698
+      freepik__background__84207_12: -6724886450008916862
+      freepik__background__84207_13: 4844929259094882931
+      freepik__background__84207_14: -2752417379196538034
+      freepik__background__84207_15: -4306289458973487425
+      freepik__background__84207_2: 2911234966491344686
+      freepik__background__84207_3: -7855503546838982872
+      freepik__background__84207_4: -1896528213466436480
+      freepik__background__84207_5: -8979002990393224211
+      freepik__background__84207_6: -5880186054779208830
+      freepik__background__84207_7: 1869916781808656519
+      freepik__background__84207_8: -4276035097695567296
+      freepik__background__84207_9: 278023355433459320
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

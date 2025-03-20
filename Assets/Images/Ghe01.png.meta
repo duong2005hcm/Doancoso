@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6b3e03d82e4a4b74bab2435c582159cd
+guid: 8ee1986d191275e4db18b8ca58f7afb2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1414345816464201449
-    second: icons8-settings-100 (1)_0
+      213: 5839829314448593838
+    second: Ghe01_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: icons8-settings-100 (1)_0
+      name: Ghe01_0
       rect:
         serializedVersion: 2
-        x: 14
-        y: 14
-        width: 72
-        height: 72
+        x: 568
+        y: 889
+        width: 787
+        height: 880
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9e698ebc604c0a310800000000000000
-      internalID: 1414345816464201449
+      spriteID: ea31f9c12dd3b0150800000000000000
+      internalID: 5839829314448593838
       vertices: []
       indices: 
       edges: []
@@ -160,8 +160,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      icons8-settings-100 (1)_0: 1414345816464201449
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

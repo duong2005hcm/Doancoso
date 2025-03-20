@@ -26,4 +26,9 @@ public class MetersManager : MonoBehaviour
         isTraveling = true;
     }
 
+    public float GetMetersTraveled()
+    {
+        return MetersTraveled;
+    }
+
 }
