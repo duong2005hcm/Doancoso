@@ -72,3 +72,10 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 # Firebase config files
 google-services.json
+google-services-desktop.json
+*.keystore
+*.p12
+*.pem
+*.ctr
+*.key
+*.pft
