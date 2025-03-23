@@ -79,3 +79,6 @@ google-services-desktop.json
 *.ctr
 *.key
 *.pft
+# Ignore Firebase large files
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-*.bundle
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-*.so
