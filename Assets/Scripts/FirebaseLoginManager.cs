@@ -1,8 +1,10 @@
 using Firebase.Auth;
+using Firebase.Database;
 using Firebase.Extensions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Firebase;
 
 public class FirebaseLoginManager : MonoBehaviour
 {
@@ -22,6 +24,8 @@ public class FirebaseLoginManager : MonoBehaviour
 
     // Firebase Authentication
     private FirebaseAuth auth;
+    private DatabaseReference dbReference;
+    private FirebaseUser user;
 
     //Chuyen doi dang ki va dang nhap
     [Header("Switch form")]
@@ -33,6 +37,8 @@ public class FirebaseLoginManager : MonoBehaviour
     private void Start()
     {
         auth = FirebaseAuth.DefaultInstance;
+        FirebaseDatabase database = FirebaseDatabase.DefaultInstance;
+        dbReference = database.RootReference;
 
         Registerbutton.onClick.AddListener(RegisterAccountWithFirebase);
         LoginButton.onClick.AddListener(SignInAccountWithFirebase);
@@ -44,8 +50,9 @@ public class FirebaseLoginManager : MonoBehaviour
     {
         string email = ipRegisteremail.text;
         string password = ipRegisteremail.text;
+        SaveNewUser(email, password);
 
-        auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task => 
+        auth.CreateUserWithEmailAndPasswordAsync(email,password).ContinueWithOnMainThread(task => 
         { 
             if (task.IsCanceled)
             {
@@ -87,7 +94,7 @@ public class FirebaseLoginManager : MonoBehaviour
                 Debug.Log("Dang nhap thanh cong!!!");
                 FirebaseUser user = task.Result.User;
 
-                //SceneManager.LoadScene("MainMenu");
+                SceneManager.LoadScene("MainMenu");
                 return;
             }
 
@@ -97,5 +104,37 @@ public class FirebaseLoginManager : MonoBehaviour
     {
         LoginForm.SetActive(!LoginForm.activeSelf);
         RegisterForm.SetActive(!RegisterForm.activeSelf);
+    }
+    private void SaveNewUser(string userId, string email)
+    {
+        var user = new User(email, "New Player", 0, 0, 0, "default", "default_avatar.png", "char1");
+
+        string json = JsonUtility.ToJson(user);
+        dbReference.Child("Users").Child(userId).SetRawJsonValueAsync(json);
+    }
+}
+
+[System.Serializable]
+public class User
+{
+    public string email;
+    public string displayName;
+    public int highScore;
+    public int coins;
+    public int diamonds;
+    public string avatarType;
+    public string avatarURL;
+    public string selectedCharacter;
+
+    public User(string email, string displayName, int highScore, int coins, int diamonds, string avatarType, string avatarURL, string selectedCharacter)
+    {
+        this.email = email;
+        this.displayName = displayName;
+        this.highScore = highScore;
+        this.coins = coins;
+        this.diamonds = diamonds;
+        this.avatarType = avatarType;
+        this.avatarURL = avatarURL;
+        this.selectedCharacter = selectedCharacter;
     }
 }

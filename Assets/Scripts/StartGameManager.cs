@@ -6,7 +6,7 @@ using System.Collections;
 public class StartGameManager : MonoBehaviour
 {
     public TMP_Text countdownText;
-    private bool gameStarted = false;
+    //private bool gameStarted = false;
 
     private void Start()
     {
@@ -16,7 +16,7 @@ public class StartGameManager : MonoBehaviour
 
     private IEnumerator GameStartCountdown()
     {
-        gameStarted = true;
+        //gameStarted = true;
         countdownText.gameObject.SetActive(true);
         Time.timeScale = 0; // Dừng game khi bắt đầu
 
