@@ -649,7 +649,7 @@ MonoBehaviour:
   spawnPosition: {x: 0, y: 6, z: -2}
   entitieSpeed: 7
   xMargin: 2
-  spawnTimer: 0
+  spawnTimer: 2
   spawnTimerMax: 0.5
 --- !u!4 &585253879
 Transform:
