@@ -732,12 +732,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33e274991e649a64b87850d6ae256788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ipRegisteremail: {fileID: 1461963111}
-  ipRegisterpassword: {fileID: 509267069}
-  Registerbutton: {fileID: 1208430652}
+  ipRegisterEmail: {fileID: 1461963111}
+  ipRegisterPassword: {fileID: 509267069}
+  RegisterButton: {fileID: 1208430652}
   ipLoginEmail: {fileID: 417459380}
   ipLoginPassword: {fileID: 1559630186}
   LoginButton: {fileID: 740824137}
+  LogoutButton: {fileID: 0}
   MoveRegisButton: {fileID: 255222735}
   MoveLoginButton: {fileID: 1519246537}
   LoginForm: {fileID: 513497800}

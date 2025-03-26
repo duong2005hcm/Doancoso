@@ -1,4 +1,4 @@
-using Firebase.Auth;
+﻿using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
 using UnityEngine;
@@ -8,108 +8,101 @@ using Firebase;
 
 public class FirebaseLoginManager : MonoBehaviour
 {
-    //Quan li dang ki
     [Header("Register")]
-    public InputField ipRegisteremail;
-    public InputField ipRegisterpassword;
+    public InputField ipRegisterEmail;
+    public InputField ipRegisterPassword;
+    public Button RegisterButton;
 
-    public Button Registerbutton;
-
-    //Quan li dang nhap
     [Header("Sign In")]
     public InputField ipLoginEmail;
     public InputField ipLoginPassword;
-
     public Button LoginButton;
 
-    // Firebase Authentication
+    [Header("Sign Out")]
+    public Button LogoutButton;
+
+    [Header("Switch form")]
+    public Button MoveRegisButton;
+    public Button MoveLoginButton;
+    public GameObject LoginForm;
+    public GameObject RegisterForm;
+
     private FirebaseAuth auth;
     private DatabaseReference dbReference;
     private FirebaseUser user;
 
-    //Chuyen doi dang ki va dang nhap
-    [Header("Switch form")]
-    public Button MoveRegisButton;
-    public Button MoveLoginButton;
-
-    public GameObject LoginForm;
-    public GameObject RegisterForm;
     private void Start()
     {
         auth = FirebaseAuth.DefaultInstance;
-        FirebaseDatabase database = FirebaseDatabase.DefaultInstance;
-        dbReference = database.RootReference;
+        dbReference = FirebaseDatabase.DefaultInstance.RootReference;
+        
 
-        Registerbutton.onClick.AddListener(RegisterAccountWithFirebase);
+        RegisterButton.onClick.AddListener(RegisterAccountWithFirebase);
         LoginButton.onClick.AddListener(SignInAccountWithFirebase);
+        //LogoutButton.onClick.AddListener(SignOut);
 
         MoveLoginButton.onClick.AddListener(SwitchForm);
         MoveRegisButton.onClick.AddListener(SwitchForm);
     }
+
     public void RegisterAccountWithFirebase()
     {
-        string email = ipRegisteremail.text;
-        string password = ipRegisteremail.text;
-        SaveNewUser(email, password);
+        string email = ipRegisterEmail.text;
+        string password = ipRegisterPassword.text;
 
-        auth.CreateUserWithEmailAndPasswordAsync(email,password).ContinueWithOnMainThread(task => 
-        { 
-            if (task.IsCanceled)
+        auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCanceled || task.IsFaulted)
             {
-                Debug.Log("Dang ki bi huy!!");
-                return;
-            }
-            if (task.IsFaulted)
-            {
-                Debug.Log("Dang ki that bai!!");
-                return;
-            }
-            if (task.IsCompleted)
-            {
-                Debug.Log("Dang ki thanh cong!!!");
+                Debug.Log("Đăng ký thất bại!");
                 return;
             }
 
-        } );
+            FirebaseUser newUser = task.Result.User;
+            string userId = newUser.UserId;
+            SaveNewUser(userId, email);
+
+            Debug.Log("Đăng ký thành công!");
+            SceneManager.LoadScene("MainMenu");
+        });
     }
+
     public void SignInAccountWithFirebase()
     {
         string email = ipLoginEmail.text;
         string password = ipLoginPassword.text;
 
-        auth.SignInWithEmailAndPasswordAsync(email,password).ContinueWithOnMainThread(task =>
+        auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
         {
-            if (task.IsCanceled)
+            if (task.IsCanceled || task.IsFaulted)
             {
-                Debug.Log("Dang nhap bi huy!!");
-                return;
-            }
-            if (task.IsFaulted)
-            {
-                Debug.Log("Dang nhap that bai!!");
-                return;
-            }
-            if (task.IsCompleted)
-            {
-                Debug.Log("Dang nhap thanh cong!!!");
-                FirebaseUser user = task.Result.User;
-
-                SceneManager.LoadScene("MainMenu");
+                Debug.Log("Đăng nhập thất bại!");
                 return;
             }
 
+            FirebaseUser user = task.Result.User;
+            Debug.Log("Đăng nhập thành công!");
+            SceneManager.LoadScene("MainMenu");
         });
     }
+
+    //public void SignOut()
+    //{
+    //    auth.SignOut();
+    //    Debug.Log("Đã đăng xuất!");
+    //    SceneManager.LoadScene("LoginScene");
+    //}
+
     public void SwitchForm()
     {
         LoginForm.SetActive(!LoginForm.activeSelf);
         RegisterForm.SetActive(!RegisterForm.activeSelf);
     }
+
     private void SaveNewUser(string userId, string email)
     {
-        var user = new User(email, "New Player", 0, 0, 0, "default", "default_avatar.png", "char1");
-
-        string json = JsonUtility.ToJson(user);
+        User newUser = new (email, "New Player", 0, 0, 0, "default", "default_avatar.png", "char1");
+        string json = JsonUtility.ToJson(newUser);
         dbReference.Child("Users").Child(userId).SetRawJsonValueAsync(json);
     }
 }
