@@ -8,6 +8,7 @@ public class FinishGameManager : MonoBehaviour
 
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TextMeshProUGUI metersText;
+    [SerializeField] private TextMeshProUGUI coinText;
 
     private void Awake()
     {
@@ -24,6 +25,12 @@ public class FinishGameManager : MonoBehaviour
         {
             float meters = MetersManager.Instance.GetMetersTraveled();
             metersText.text = "Quãng đường đã chạy: " + (int)meters + " m";
+        }
+
+        if (coinText != null)
+        {
+            int collectedCoins = PlayerMoney.Instance.GetCollectedCoins();
+            coinText.text = "Xu đã thu thập: " + collectedCoins;
         }
     }
 

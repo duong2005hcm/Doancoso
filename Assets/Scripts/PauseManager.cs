@@ -5,6 +5,8 @@ public class PauseManager : MonoBehaviour
 {
     [SerializeField] private GameObject pauseGamePanel;
     [SerializeField] private GameObject pauseButton;
+    [SerializeField] private GameObject settingsPanel;
+
     [SerializeField] private bool canPause = true;
 
 
@@ -57,7 +59,7 @@ public class PauseManager : MonoBehaviour
 
     public void OpenSettings()
     {
-        Debug.Log("Open Settings");
+        settingsPanel.SetActive(true);
     }
 
     public void SetCanPause(bool value)

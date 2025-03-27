@@ -23,10 +23,10 @@ public class StartGameManager : MonoBehaviour
         for (int i = 3; i > 0; i--)
         {
             countdownText.text = i.ToString();
-            yield return new WaitForSecondsRealtime(1); // Đếm ngược dù game bị dừng
+            yield return new WaitForSecondsRealtime(1);
         }
 
-        countdownText.text = "GO!";
+        countdownText.text = "Bắt đầu!";
         yield return new WaitForSecondsRealtime(1);
 
         countdownText.gameObject.SetActive(false);
