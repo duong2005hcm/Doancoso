@@ -81,4 +81,8 @@ google-services-desktop.json
 *.pft
 # Ignore Firebase large files
 Assets/Firebase/Plugins/x86_64/FirebaseCppApp-*.bundle
+<<<<<<< HEAD
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-*.so
+=======
 Assets/Firebase/Plugins/x86_64/FirebaseCppApp-*.somas
+>>>>>>> 728d8b499450da4981ba6b8a395732332a69c6c9
