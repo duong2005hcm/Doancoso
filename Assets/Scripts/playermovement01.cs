@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
 
-public class playermovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     private Camera mainCamera;
     private Rigidbody2D rb;
 
-
-    [SerializeField] private float playerSpeed = 250;
-    [SerializeField] private float xMargin = 2;
-    [SerializeField] private float yMarginForInput = 2000;
+    [SerializeField] private float playerSpeed = 5f;
+    [SerializeField] private float xMargin = 2f;
+    [SerializeField] private float yMarginForInput = 2f;
 
     private void Awake()
     {
@@ -19,7 +18,7 @@ public class playermovement : MonoBehaviour
     private void Update()
     {
         int dirX = 0;
-        transform.rotation = Quaternion.Euler(0, 0, 0);
+        transform.rotation = Quaternion.identity;
 
         if (Application.isEditor)
         {
@@ -32,40 +31,32 @@ public class playermovement : MonoBehaviour
             {
                 dirX = -1;
                 transform.rotation = Quaternion.Euler(0, 0, 30);
-
             }
         }
-        else
+        else if (Input.touchCount > 0)
         {
-            if (Input.touches.Length > 0)
+            Vector3 touchPosition = Input.touches[0].position;
+            if (touchPosition.y < Screen.height * yMarginForInput)
             {
-                Vector3 touchPosition = Input.touches[0].position;
-                touchPosition = mainCamera.ScreenToWorldPoint(touchPosition);
-
-                if (touchPosition.y < yMarginForInput)
+                if (touchPosition.x > Screen.width / 2)
                 {
-
-                    if (touchPosition.x > 0)
-                    {
-                        dirX = 1;
-                        transform.rotation = Quaternion.Euler(0, 0, -30);
-
-                    }
-                    else
-                    {
-                        dirX = -1;
-                        transform.rotation = Quaternion.Euler(0, 0, 30);
-
-                    }
+                    dirX = 1;
+                    transform.rotation = Quaternion.Euler(0, 0, -30);
+                }
+                else
+                {
+                    dirX = -1;
+                    transform.rotation = Quaternion.Euler(0, 0, 30);
                 }
             }
         }
-        rb.linearVelocity = new Vector2(dirX * playerSpeed * Time.fixedDeltaTime, 0);
 
-        float posX = transform.position.x;
-        posX = Mathf.Clamp(posX, -xMargin, xMargin);
+        rb.linearVelocity = new Vector2(dirX * playerSpeed, rb.linearVelocity.y);
+    }
+
+    private void FixedUpdate()
+    {
+        float posX = Mathf.Clamp(transform.position.x, -xMargin, xMargin);
         transform.position = new Vector3(posX, transform.position.y, transform.position.z);
     }
 }
-
-
