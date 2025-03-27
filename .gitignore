@@ -1,4 +1,4 @@
-# This .gitignore file should be placed at the root of your Unity project directory
+# This .gitignore file should be placed at the root of your Unity project directory 
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
@@ -8,6 +8,8 @@
 /[Bb]uild/
 /[Bb]uilds/
 /[Ll]ogs/
+  
+# User-specific settings  
 /[Uu]ser[Ss]ettings/
 
 # MemoryCaptures can get excessive in size.
@@ -70,6 +72,7 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
 # Firebase config files
 google-services.json
 google-services-desktop.json
@@ -79,10 +82,7 @@ google-services-desktop.json
 *.ctr
 *.key
 *.pft
+
 # Ignore Firebase large files
-Assets/Firebase/Plugins/x86_64/FirebaseCppApp-*.bundle
-<<<<<<< HEAD
 Assets/Firebase/Plugins/x86_64/FirebaseCppApp-*.so
-=======
-Assets/Firebase/Plugins/x86_64/FirebaseCppApp-*.somas
->>>>>>> 728d8b499450da4981ba6b8a395732332a69c6c9
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-*.bundle
