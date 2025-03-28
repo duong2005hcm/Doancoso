@@ -59,6 +59,8 @@ sysinfo.txt
 *.apk
 *.aab
 *.unitypackage
+
+*.unitypackage.meta
 *.app
 
 # Crashlytics generated file
@@ -70,6 +72,7 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+<<<<<<< HEAD
 # Firebase config files
 google-services.json
 google-services-desktop.json
@@ -109,3 +112,5 @@ MemoryCaptures/
 .vscode/
 "Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_7_0.so" 
 "Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_7_0.so" 
+=======
+>>>>>>> 2b1c9aecd34233a81e86deda53727aef9bb902b6
