@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Doancoso-Minhdeptrai - Copy.sln"
+    "dotnet.defaultSolution": "Doancoso-moi.sln"
 }

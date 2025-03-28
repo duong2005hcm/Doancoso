@@ -8,7 +8,8 @@ using Firebase.Auth;
 using Firebase.Extensions;
 using System;
 using System.Threading.Tasks;
-
+using Firebase.Database;
+using Random = UnityEngine.Random;  
 public class FirebaseController : MonoBehaviour 
 {
     public GameObject loginPanel, signupPanel, profilePanel, forgetPasswordPanel, notificationPanel;
@@ -23,6 +24,37 @@ public class FirebaseController : MonoBehaviour
     Firebase.Auth.FirebaseUser user;
 
     bool isSignIn = false;
+
+
+    private DatabaseReference databaseReference;
+
+
+    public class FirebaseUserData 
+{
+    public string email;
+    public string displayName;
+    public int highScore;
+    public int coins;
+    public int diamonds;
+    public string avatarType;
+    public string avatarURL;
+    public string selectedCharacter;
+
+    public FirebaseUserData(string email, string displayName, int highScore = 0, 
+        int coins = 0, int diamonds = 0, string avatarType = "default", 
+        string avatarURL = "https://placehold.co/150x150", 
+        string selectedCharacter = "default")
+    {
+        this.email = email;
+        this.displayName = displayName;
+        this.highScore = highScore;
+        this.coins = coins;
+        this.diamonds = diamonds;
+        this.avatarType = avatarType;
+        this.avatarURL = avatarURL;
+        this.selectedCharacter = selectedCharacter;
+    }
+}
 
 
 
@@ -142,6 +174,35 @@ public class FirebaseController : MonoBehaviour
 
     }
 
+    public void SaveUserData(string userId, string email, string displayName, int highScore = 0, 
+                        int coins = 0, int diamonds = 0, string avatarType = "default", 
+                        string avatarURL = "https://placehold.co/150x150", 
+                        string selectedCharacter = "default")
+{
+    // Tạo dictionary chứa toàn bộ dữ liệu người dùng
+    Dictionary<string, object> userData = new Dictionary<string, object>();
+    userData["email"] = email;
+    userData["displayName"] = displayName;
+    userData["highScore"] = highScore;
+    userData["coins"] = coins;
+    userData["diamonds"] = diamonds;
+    userData["avatarType"] = avatarType;
+    userData["avatarURL"] = avatarURL;
+    userData["selectedCharacter"] = selectedCharacter;
+    userData["Shop/0001"] = true; // Dữ liệu shop mẫu
+    userData["Shop/0002"] = true;
+
+    // Đẩy toàn bộ dữ liệu lên database
+    databaseReference.Child("Users").Child(userId).UpdateChildrenAsync(userData)
+        .ContinueWithOnMainThread(task => {
+            if (task.IsCompleted) {
+                Debug.Log("Dữ liệu người dùng đã được lưu thành công!");
+            } else {
+                Debug.LogError("Lỗi khi lưu dữ liệu: " + task.Exception);
+            }
+        });
+}
+
     void CreateUser( string email, string password, string UserName )
     {
         auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task => {
@@ -213,6 +274,17 @@ public class FirebaseController : MonoBehaviour
         Debug.LogFormat("User signed in successfully: {0} ({1})",
             result.User.DisplayName, result.User.UserId);
 
+
+        // Lưu thông tin người dùng lên Realtime Database
+        SaveUserData(
+            userId: result.User.UserId,
+            email: result.User.Email,
+            displayName: result.User.DisplayName ?? "Player_" + Random.Range(1000, 9999),
+            highScore: 0,
+            coins: 100,
+            diamonds: 10
+        );
+
         pro5User_Text.text=""+ user.DisplayName;
         pro5Email_Text.text=""+ user.Email;
                                                 //result.
@@ -222,6 +294,7 @@ public class FirebaseController : MonoBehaviour
 
     void InitializeFirebase() {
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
     }
