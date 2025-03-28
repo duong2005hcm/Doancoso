@@ -82,5 +82,4 @@ google-services-desktop.json
 *.pft
 
 # Ignore large Firebase files (Use Git LFS instead)
-Assets/Firebase/Plugins/x86_64/FirebaseCppApp-*.so
 Assets/Firebase/Plugins/x86_64/FirebaseCppApp-*.bundle
