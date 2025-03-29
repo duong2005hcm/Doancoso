@@ -3,17 +3,16 @@
 **Khoa Công Nghệ Thông Tin - Học Viện Hàng Không Việt Nam**
 
 ## 📅 Đề tài: 
-Phát Triển Hệ Thống Website Đọc Truyện Chữ Và Tương Tác Cộng Đồng Bằng Node.js
+GAME 2D ENDLESSRUNNER SỬ DỤNG CÔNG CỤ UNITY  
 
 ## 📅 Thành viên nhóm:
-- Võ Huỳnh Minh Thư
-- Phạm Nguyễn Thùy Tiến
-- Tầng Thị Mỹ Lan
-- Bùi Khánh Minh
-- Trần Phương Uyên
+- Trần Thành Minh
+- Nguyễn Ngọc Anh Dương
+- Lê Hoàng Thiện Nhân
+- Võ Thành Nhân
+- Cao Văn Quang
 
 ## 📅 Công nghệ sử dụng
-- Node.js
-- Express.js
-- MongoDB
-- REST API
+- Unity
+- Firebase
+
