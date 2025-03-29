@@ -8,8 +8,8 @@ public class FirebaseItemsManager : MonoBehaviour
 {
     public static FirebaseItemsManager Instance;
 
-    [SerializeField] private Transform itemContainer; // Vùng hiển thị vật phẩm
-    [SerializeField] private GameObject itemPrefab; // Prefab của vật phẩm trong shop
+    [SerializeField] private Transform itemContainer; // Gán Content của ScrollView
+    [SerializeField] private GameObject itemPrefab; // Gán prefab item
 
     private DatabaseReference dbReference;
     private List<GameObject> itemObjects = new List<GameObject>();
@@ -22,16 +22,20 @@ public class FirebaseItemsManager : MonoBehaviour
 
     private void Start()
     {
-        LoadShopItems("supportItem"); // Mặc định hiển thị vật phẩm hỗ trợ
+        LoadShopItems();
     }
 
-    public void LoadShopItems(string category)
+    public void LoadShopItems(string category = "supportItem")
     {
+        Debug.Log($"🔄 Đang tải vật phẩm trong danh mục: {category}");
+
         dbReference.Child("Shop").GetValueAsync().ContinueWith(task =>
         {
             if (task.IsCompleted)
             {
                 DataSnapshot snapshot = task.Result;
+                Debug.Log($"✅ Số vật phẩm trong Shop: {snapshot.ChildrenCount}");
+
                 ClearShopUI();
 
                 foreach (DataSnapshot itemData in snapshot.Children)
@@ -44,10 +48,16 @@ public class FirebaseItemsManager : MonoBehaviour
                     string currency = itemData.Child("currency").Value.ToString();
                     string description = itemData.Child("description").Value.ToString();
                     int price = int.Parse(itemData.Child("price").Value.ToString());
-                    string imageName = itemData.Child("imageName").Value.ToString(); // Chỉ lưu tên file
+                    string imageName = itemData.Child("imageURL").Value.ToString(); // Đảm bảo chỉ lưu tên file
+
+                    Debug.Log($"🛒 Đọc vật phẩm: {name}, ID: {id}, Ảnh: {imageName}");
 
                     LoadItemImage(id, name, type, price, currency, description, imageName);
                 }
+            }
+            else
+            {
+                Debug.LogError("❌ Lỗi khi lấy dữ liệu Shop từ Firebase!");
             }
         });
     }
@@ -63,16 +73,17 @@ public class FirebaseItemsManager : MonoBehaviour
 
     private void LoadItemImage(string id, string name, string type, int price, string currency, string description, string imageName)
     {
-        // Load ảnh từ Resources
+        Debug.Log($"🛠️ Đang tạo Item: {name}");  // Log kiểm tra
         Sprite itemSprite = Resources.Load<Sprite>($"Images/Items/{imageName}");
+
         if (itemSprite == null)
         {
-            Debug.LogWarning($"Không tìm thấy ảnh: {imageName} trong Resources/Images/Items/");
+            Debug.LogWarning($"❌ Không tìm thấy ảnh: {imageName} trong Resources/Images/Items/");
             return;
         }
 
         GameObject itemObject = Instantiate(itemPrefab, itemContainer);
+        Debug.Log($"✅ Tạo thành công: {name} - Gán vào {itemContainer.name}"); // Log kiểm tra
         itemObject.GetComponent<ItemUI>().Setup(id, name, type, price, currency, description, itemSprite);
-        itemObjects.Add(itemObject);
     }
 }

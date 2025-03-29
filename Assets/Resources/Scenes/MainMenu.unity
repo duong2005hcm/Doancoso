@@ -4550,6 +4550,8 @@ GameObject:
   - component: {fileID: 1032136390}
   - component: {fileID: 1032136389}
   - component: {fileID: 1032136391}
+  - component: {fileID: 1032136393}
+  - component: {fileID: 1032136392}
   m_Layer: 0
   m_Name: MainMenuManager
   m_TagString: Untagged
@@ -4604,6 +4606,32 @@ MonoBehaviour:
   returnButton: {fileID: 1434515860}
   copyrightButton: {fileID: 1793996522}
   copyrightCloseButton: {fileID: 1963047262}
+--- !u!114 &1032136392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032136387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89f8e0f24c9c49a4c95fae96fe55242b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1032136393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032136387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91f39a1770a6fa441bfd34b57a453087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinText: {fileID: 738552171}
+  diamondText: {fileID: 1614580841}
 --- !u!1 &1094005539
 GameObject:
   m_ObjectHideFlags: 0
