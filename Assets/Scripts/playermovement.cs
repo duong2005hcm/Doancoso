@@ -67,5 +67,3 @@ public class playermovement : MonoBehaviour
         transform.position = new Vector3(posX, transform.position.y, transform.position.z);
     }
 }
-
-

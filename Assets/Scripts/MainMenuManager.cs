@@ -9,9 +9,9 @@ public class MainMenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("Gameplay", LoadSceneMode.Single);
     }
-    public void ShopButtonClicked()
-    {
-        SceneManager.LoadScene("Shop", LoadSceneMode.Single);
-    }
+    //public void ShopButtonClicked()
+    //{
+    //    SceneManager.LoadScene("Shop", LoadSceneMode.Single);
+    //}
 
 }

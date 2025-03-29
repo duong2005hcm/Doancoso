@@ -36,6 +36,7 @@ public class FirebaseLoginManager : MonoBehaviour
         auth = FirebaseAuth.DefaultInstance;
         dbReference = FirebaseDatabase.DefaultInstance.RootReference;
         
+        
 
         RegisterButton.onClick.AddListener(RegisterAccountWithFirebase);
         LoginButton.onClick.AddListener(SignInAccountWithFirebase);
@@ -83,6 +84,8 @@ public class FirebaseLoginManager : MonoBehaviour
             FirebaseUser user = task.Result.User;
             Debug.Log("Đăng nhập thành công!");
             SceneManager.LoadScene("MainMenu");
+            user = auth.CurrentUser;
+            MetersManager.Instance.InitializeWithUser(user);
         });
     }
 
