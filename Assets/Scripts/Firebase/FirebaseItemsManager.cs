@@ -1,64 +1,78 @@
 ﻿using UnityEngine;
 using Firebase.Database;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using TMPro;
 
 public class FirebaseItemsManager : MonoBehaviour
 {
+    public static FirebaseItemsManager Instance;
+
+    [SerializeField] private Transform itemContainer; // Vùng hiển thị vật phẩm
+    [SerializeField] private GameObject itemPrefab; // Prefab của vật phẩm trong shop
+
     private DatabaseReference dbReference;
+    private List<GameObject> itemObjects = new List<GameObject>();
+
+    private void Awake()
+    {
+        Instance = this;
+        dbReference = FirebaseDatabase.DefaultInstance.RootReference;
+    }
 
     private void Start()
     {
-        dbReference = FirebaseDatabase.DefaultInstance.RootReference;
-
-        AddItemToDatabase(
-            id: "0001",
-            name: "Dầu gió",
-            description: "Bạn va phải người khác? Bôi dầu gió để giảm đau, giúp bạn tiếp tục chạy sau khi va chạm.",
-            type: "supportItem",
-            price: 50,
-            currency: "coin",
-            imageURL: "Image/Items/daugio"
-        );
-
-        AddItemToDatabase(
-            id: "0002",
-            name: "Cafe phin",
-            description: "Uống vào giúp tỉnh táo, cảm giác như mọi thứ xung quanh chậm lại trong 10 giây",
-            type: "supportItem",
-            price: 30,
-            currency: "coin",
-            imageURL: "Image/Items/cafephin"
-        );
+        LoadShopItems("supportItem"); // Mặc định hiển thị vật phẩm hỗ trợ
     }
 
-    public void AddItemToDatabase(string id, string name, string description, string type, int price, string currency, string imageURL, string characterId = "")
+    public void LoadShopItems(string category)
     {
-        Dictionary<string, object> itemData = new Dictionary<string, object>
-        {
-            { "id", id },
-            { "name", name },
-            { "description", description },
-            { "type", type },
-            { "price", price },
-            { "currency", currency },
-            { "imageURL", imageURL }
-        };
-
-        if (!string.IsNullOrEmpty(characterId))
-        {
-            itemData["characterId"] = characterId;
-        }
-
-        dbReference.Child("Shop").Child(id).SetValueAsync(itemData).ContinueWith(task =>
+        dbReference.Child("Shop").GetValueAsync().ContinueWith(task =>
         {
             if (task.IsCompleted)
             {
-                Debug.Log("Item added successfully: " + id);
-            }
-            else
-            {
-                Debug.LogError("Failed to add item: " + task.Exception);
+                DataSnapshot snapshot = task.Result;
+                ClearShopUI();
+
+                foreach (DataSnapshot itemData in snapshot.Children)
+                {
+                    string type = itemData.Child("type").Value.ToString();
+                    if (type != category) continue;
+
+                    string id = itemData.Key;
+                    string name = itemData.Child("name").Value.ToString();
+                    string currency = itemData.Child("currency").Value.ToString();
+                    string description = itemData.Child("description").Value.ToString();
+                    int price = int.Parse(itemData.Child("price").Value.ToString());
+                    string imageName = itemData.Child("imageName").Value.ToString(); // Chỉ lưu tên file
+
+                    LoadItemImage(id, name, type, price, currency, description, imageName);
+                }
             }
         });
+    }
+
+    private void ClearShopUI()
+    {
+        foreach (Transform child in itemContainer)
+        {
+            Destroy(child.gameObject);
+        }
+        itemObjects.Clear();
+    }
+
+    private void LoadItemImage(string id, string name, string type, int price, string currency, string description, string imageName)
+    {
+        // Load ảnh từ Resources
+        Sprite itemSprite = Resources.Load<Sprite>($"Images/Items/{imageName}");
+        if (itemSprite == null)
+        {
+            Debug.LogWarning($"Không tìm thấy ảnh: {imageName} trong Resources/Images/Items/");
+            return;
+        }
+
+        GameObject itemObject = Instantiate(itemPrefab, itemContainer);
+        itemObject.GetComponent<ItemUI>().Setup(id, name, type, price, currency, description, itemSprite);
+        itemObjects.Add(itemObject);
     }
 }

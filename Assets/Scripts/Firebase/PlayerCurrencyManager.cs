@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using Firebase.Database;
 using Firebase.Auth;
-using UnityEngine.UI;
 using TMPro;
+using Firebase.Extensions;
 
 public class PlayerCurrencyManager : MonoBehaviour
 {
@@ -16,35 +16,45 @@ public class PlayerCurrencyManager : MonoBehaviour
     {
         dbReference = FirebaseDatabase.DefaultInstance.RootReference;
 
-        // Kiểm tra xem người dùng đã đăng nhập chưa
+        // Kiểm tra người dùng đã đăng nhập chưa
         if (FirebaseAuth.DefaultInstance.CurrentUser != null)
         {
             userId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
-            LoadCurrencyData();
         }
         else
         {
-            Debug.LogError("User is not logged in!");
+            userId = "1GmBi8crvxOqrze0mEBkXXHyVBs1"; // Đặt UserID test nếu chưa đăng nhập
+            Debug.LogWarning("FirebaseAuth user is null, using test user ID.");
         }
+
+        LoadCurrencyData();
     }
 
     private void LoadCurrencyData()
     {
-        dbReference.Child("Users").Child(userId).GetValueAsync().ContinueWith(task =>
+        dbReference.Child("Users").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
         {
-            if (task.IsCompleted && task.Result.Exists)
+            if (task.IsFaulted)
+            {
+                Debug.LogError("Lỗi khi tải dữ liệu tiền tệ: " + task.Exception);
+                return;
+            }
+
+            if (task.IsCompleted)
             {
                 DataSnapshot snapshot = task.Result;
+                if (snapshot.Exists)
+                {
+                    int coins = snapshot.HasChild("coins") ? int.Parse(snapshot.Child("coins").Value.ToString()) : 0;
+                    int diamonds = snapshot.HasChild("diamonds") ? int.Parse(snapshot.Child("diamonds").Value.ToString()) : 0;
 
-                int coins = snapshot.Child("coins").Exists ? int.Parse(snapshot.Child("coins").Value.ToString()) : 0;
-                int diamonds = snapshot.Child("diamonds").Exists ? int.Parse(snapshot.Child("diamonds").Value.ToString()) : 0;
-
-                // Hiển thị trên UI
-                UpdateCurrencyUI(coins, diamonds);
-            }
-            else
-            {
-                Debug.LogError("Failed to load currency data: " + task.Exception);
+                    // Cập nhật UI trên main thread
+                    UpdateCurrencyUI(coins, diamonds);
+                }
+                else
+                {
+                    Debug.LogWarning("Không tìm thấy dữ liệu tiền tệ của user.");
+                }
             }
         });
     }

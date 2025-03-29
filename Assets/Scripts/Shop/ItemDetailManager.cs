@@ -6,70 +6,55 @@ public class ItemDetailManager : MonoBehaviour
 {
     public static ItemDetailManager Instance;
 
-    public GameObject itemDetailPanel;
-    public Image itemImage;
-    public TextMeshProUGUI itemName;
-    public TextMeshProUGUI itemPrice;
-    public Image currencyIcon;
-    public TextMeshProUGUI itemDescription;
-    public Slider quantitySlider;
-    public TextMeshProUGUI quantityText;
-    public Button buyButton;
-    public Button returnButton;
+    [SerializeField] private GameObject detailPanel;
+    [SerializeField] private Image itemImage;
+    [SerializeField] private TextMeshProUGUI itemNameText;
+    [SerializeField] private TextMeshProUGUI itemPriceText;
+    [SerializeField] private Image currencyIcon;
+    [SerializeField] private TextMeshProUGUI descriptionText;
+    [SerializeField] private Slider quantitySlider;
+    [SerializeField] private TextMeshProUGUI quantityText;
+    [SerializeField] private Button purchaseButton;
 
-    private int pricePerItem;
-    private string currencyType;
+    private string itemId;
+    private string itemType;
+    private int price;
+    private string currency;
 
     private void Awake()
     {
-        Instance = this;
-        itemDetailPanel.SetActive(false);
+        if (Instance == null)
+            Instance = this;
     }
 
-    private void Start()
+    public void ShowDetails(string id, string name, string type, int itemPrice, string currencyType, string desc, Sprite image)
     {
-        returnButton.onClick.AddListener(CloseItemDetailPanel);
-        buyButton.onClick.AddListener(BuyItem);
-        quantitySlider.onValueChanged.AddListener(UpdateQuantity);
-    }
+        itemId = id;
+        itemType = type;
+        price = itemPrice;
+        currency = currencyType;
 
-    public void ShowItemDetails(string id, string name, int price, string currency, string imageName)
-    {
-        itemName.text = name;
-        itemPrice.text = price.ToString();
-        currencyIcon.sprite = LoadCurrencyIcon(currency);
-        itemImage.sprite = Resources.Load<Sprite>("Images/Items/" + imageName);
+        itemImage.sprite = image;
+        itemNameText.text = name;
+        itemPriceText.text = price.ToString();
+        descriptionText.text = desc;
+        currencyIcon.sprite = Resources.Load<Sprite>($"Images/Currency/{currency}");
 
-        pricePerItem = price;
-        currencyType = currency;
+        detailPanel.SetActive(true);
+
+        bool isSupportItem = itemType == "supportItem";
+        quantitySlider.gameObject.SetActive(isSupportItem);
+        quantityText.gameObject.SetActive(isSupportItem);
 
         quantitySlider.value = 1;
-        UpdateQuantity(1);
+        quantityText.text = "1";
 
-        itemDetailPanel.SetActive(true);
+        purchaseButton.onClick.RemoveAllListeners();
+        purchaseButton.onClick.AddListener(() => PurchaseManager.Instance.TryPurchase(itemId, itemType, price, currency, (int)quantitySlider.value));
     }
 
-    private void UpdateQuantity(float value)
+    public void ClosePanel()
     {
-        quantityText.text = value.ToString();
-        int totalPrice = Mathf.RoundToInt(value * pricePerItem);
-        itemPrice.text = totalPrice.ToString();
-    }
-
-    private void BuyItem()
-    {
-        int quantity = (int)quantitySlider.value;
-        int totalPrice = quantity * pricePerItem;
-        //PurchaseManager.Instance.TryPurchase(currencyType, totalPrice);
-    }
-
-    private void CloseItemDetailPanel()
-    {
-        itemDetailPanel.SetActive(false);
-    }
-
-    private Sprite LoadCurrencyIcon(string currency)
-    {
-        return Resources.Load<Sprite>("Icons/" + currency);
+        detailPanel.SetActive(false);
     }
 }
