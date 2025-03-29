@@ -2,8 +2,7 @@
 
 **Khoa Công Nghệ Thông Tin - Học Viện Hàng Không Việt Nam**
 
-## 📅 Đề tài: 
-GAME 2D ENDLESSRUNNER SỬ DỤNG CÔNG CỤ UNITY  
+## 📅 Đề tài: Game 2D EndlessRunner sử dụng công cụ Unity 
 
 ## 📅 Thành viên nhóm:
 - Trần Thành Minh
