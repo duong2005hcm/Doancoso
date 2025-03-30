@@ -1,4 +1,0 @@
-repository "endlessrunner 2025-01-16_23-43-29/endlessrunner@18968216179446@cloud"
-  path "/"
-    br "/main"
-    co "/main"
