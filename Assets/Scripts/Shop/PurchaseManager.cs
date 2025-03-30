@@ -1,108 +1,172 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using Firebase.Database;
-using System.Collections.Generic;
+using Firebase.Auth;
+using TMPro;
+using Firebase.Extensions;
 
 public class PurchaseManager : MonoBehaviour
 {
     public static PurchaseManager Instance;
 
-    [SerializeField] private GameObject insufficientFundsPanel; // Panel khi không đủ tiền
-    [SerializeField] private GameObject purchaseSuccessPanel; // Panel khi mua thành công
-    [SerializeField] private GameObject itemDetailPanel; // Panel chi tiết vật phẩm
+    [SerializeField] private GameObject purchaseSuccessPanel;
+    [SerializeField] private Button successCloseButton;
+    [SerializeField] private GameObject insufficientFundsPanel;
+    [SerializeField] private Button insufficientCloseButton;
 
     private DatabaseReference dbReference;
+    private FirebaseAuth auth;
+    private string userId;
+    private int userCoins;
+    private int userDiamonds;
 
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
+    }
 
+    private void Start()
+    {
+        auth = FirebaseAuth.DefaultInstance;
         dbReference = FirebaseDatabase.DefaultInstance.RootReference;
+
+        if (auth.CurrentUser != null)
+        {
+            userId = auth.CurrentUser.UserId;
+        }
+        else
+        {
+            userId = "1GmBi8crvxOqrze0mEBkXXHyVBs1"; // Dùng khi test
+            Debug.LogWarning("⚠️ FirebaseAuth user is null, using test user ID.");
+        }
+
+        LoadUserCurrency();
+
+        // Ẩn panel ban đầu
+        purchaseSuccessPanel.SetActive(false);
+        insufficientFundsPanel.SetActive(false);
+
+        // Gán sự kiện cho nút đóng panel
+        successCloseButton.onClick.AddListener(ClosePurchaseSuccessPanel);
+        insufficientCloseButton.onClick.AddListener(CloseInsufficientFundsPanel);
     }
 
-    public void TryPurchase(string itemId, string itemType, int price, string currency, int quantity)
+    private void LoadUserCurrency()
     {
-        string userId = TestUser.Instance.UserId; // Lấy ID user từ Firebase
-
-        dbReference.Child("Users").Child(userId).GetValueAsync().ContinueWith(task =>
+        dbReference.Child("Users").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
         {
-            if (task.IsCompleted && task.Result.Exists)
+            if (task.IsFaulted)
             {
-                DataSnapshot snapshot = task.Result;
-                int currentCoins = int.Parse(snapshot.Child("coins").Value.ToString());
-                int currentDiamonds = int.Parse(snapshot.Child("diamonds").Value.ToString());
-
-                bool isCoin = currency == "coin";
-                int currentBalance = isCoin ? currentCoins : currentDiamonds;
-
-                if (currentBalance >= price) // Nếu đủ tiền
-                {
-                    int newBalance = currentBalance - price;
-
-                    // Cập nhật số tiền mới vào Firebase
-                    dbReference.Child("Users").Child(userId).Child(isCoin ? "coins" : "diamonds").SetValueAsync(newBalance);
-
-                    // Lưu vật phẩm vào Inventory
-                    SaveToInventory(userId, itemId, itemType, quantity);
-
-                    // Hiển thị panel mua thành công
-                    ShowPurchaseSuccess();
-                }
-                else
-                {
-                    // Hiển thị panel không đủ tiền
-                    ShowInsufficientFunds();
-                }
+                Debug.LogError($"❌ Lỗi khi tải tiền tệ từ Firebase: {task.Exception}");
+                return;
             }
-        });
-    }
 
-    private void SaveToInventory(string userId, string itemId, string itemType, int quantity)
-    {
-        DatabaseReference inventoryRef = dbReference.Child("Inventory").Child(userId).Child("items");
-
-        inventoryRef.GetValueAsync().ContinueWith(task =>
-        {
             if (task.IsCompleted)
             {
                 DataSnapshot snapshot = task.Result;
-                Dictionary<string, object> updates = new Dictionary<string, object>();
-
-                if (itemType == "supportItem")
+                if (snapshot.Exists)
                 {
-                    int currentQuantity = snapshot.HasChild(itemId) ? int.Parse(snapshot.Child(itemId).Child("quantity").Value.ToString()) : 0;
-                    updates[itemId + "/quantity"] = currentQuantity + quantity;
+                    userCoins = snapshot.HasChild("coins") ? int.Parse(snapshot.Child("coins").Value.ToString()) : 0;
+                    userDiamonds = snapshot.HasChild("diamonds") ? int.Parse(snapshot.Child("diamonds").Value.ToString()) : 0;
+                    Debug.Log($"✅ Tiền hiện tại - Coins: {userCoins}, Diamonds: {userDiamonds}");
                 }
                 else
                 {
-                    updates[itemId] = true; // Nếu là nhân vật hoặc trang phục, chỉ lưu true
+                    Debug.LogError($"❌ Không tìm thấy dữ liệu của UserID: {userId}");
                 }
-
-                inventoryRef.UpdateChildrenAsync(updates);
             }
         });
     }
 
-    private void ShowInsufficientFunds()
+
+    public void TryPurchase(string itemId, string itemType, int price, string currency, int quantity)
     {
-        Debug.Log("Không đủ tiền!");
-        insufficientFundsPanel.SetActive(true);
+        int totalCost = price * quantity;
+        int currentBalance = (currency == "coin") ? userCoins : userDiamonds;
+
+        if (currentBalance >= totalCost)
+        {
+            CompletePurchase(itemId, itemType, price, currency, quantity);
+        }
+        else
+        {
+            ShowInsufficientFundsPanel();
+        }
     }
 
-    private void ShowPurchaseSuccess()
+    private void CompletePurchase(string itemId, string itemType, int price, string currency, int quantity)
     {
-        Debug.Log("Mua hàng thành công!");
+        int totalCost = price * quantity;
+        string currencyPath = (currency == "coin") ? "coins" : "diamonds";
+
+        if (currency == "coin")
+            userCoins -= totalCost;
+        else
+            userDiamonds -= totalCost;
+
+        // Cập nhật tiền trên Firebase
+        dbReference.Child("Users").Child(userId).Child(currencyPath).SetValueAsync(currency == "coin" ? userCoins : userDiamonds)
+            .ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCompleted)
+                {
+                    Debug.Log($"✅ Đã cập nhật {currencyPath}: {(currency == "coin" ? userCoins : userDiamonds)}");
+
+                    // Cập nhật hiển thị tiền tệ trong UI
+                    PlayerCurrencyManager playerCurrencyManager = FindFirstObjectByType<PlayerCurrencyManager>();
+                    if (playerCurrencyManager != null)
+                    {
+                        playerCurrencyManager.LoadCurrencyData();
+                    }
+                    else
+                    {
+                        Debug.LogError("❌ Không tìm thấy PlayerCurrencyManager để cập nhật tiền tệ.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("❌ Cập nhật tiền thất bại!");
+                }
+            });
+
+        // Lưu vật phẩm vào Inventory
+        dbReference.Child("Inventory").Child(userId).Child(itemId).GetValueAsync().ContinueWith(task =>
+        {
+            if (task.IsCompleted)
+            {
+                int currentQuantity = 0;
+                if (task.Result.Exists)
+                    currentQuantity = int.Parse(task.Result.Value.ToString());
+
+                int newQuantity = currentQuantity + quantity;
+                dbReference.Child("Inventory").Child(userId).Child(itemId).SetValueAsync(newQuantity);
+                Debug.Log($"📦 Đã thêm {quantity}x {itemId} vào Inventory (Tổng: {newQuantity})");
+            }
+        });
+
+        // Hiển thị panel mua thành công
+        ShowPurchaseSuccessPanel();
+    }
+
+    private void ShowPurchaseSuccessPanel()
+    {
         purchaseSuccessPanel.SetActive(true);
     }
 
-    public void CloseInsufficientFundsPanel()
-    {
-        insufficientFundsPanel.SetActive(false);
-    }
-
-    public void ClosePurchaseSuccessPanel()
+    private void ClosePurchaseSuccessPanel()
     {
         purchaseSuccessPanel.SetActive(false);
-        itemDetailPanel.SetActive(false); // Ẩn panel chi tiết vật phẩm sau khi mua
+        ItemDetailManager.Instance.ClosePanel(); // Đóng luôn panel chi tiết
+    }
+
+    private void ShowInsufficientFundsPanel()
+    {
+        insufficientFundsPanel.SetActive(true);
+    }
+
+    private void CloseInsufficientFundsPanel()
+    {
+        insufficientFundsPanel.SetActive(false);
     }
 }

@@ -19,7 +19,7 @@ public class FinishGameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         gameOverPanel.SetActive(true);
-        PlayerMoney.Instance.SaveMoney();
+        CoinManager.Instance.SaveMoney();
 
         if (MetersManager.Instance != null)
         {
@@ -29,7 +29,7 @@ public class FinishGameManager : MonoBehaviour
 
         if (coinText != null)
         {
-            int collectedCoins = PlayerMoney.Instance.GetCollectedCoins();
+            int collectedCoins = CoinManager.Instance.GetCollectedCoinsThisRun();
             coinText.text = "Xu đã thu thập: " + collectedCoins;
         }
     }
@@ -37,12 +37,14 @@ public class FinishGameManager : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1;
+        CoinManager.Instance.ResetCoins();
         SceneManager.LoadScene("Gameplay", LoadSceneMode.Single);
     }
 
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1;
+        CoinManager.Instance.ResetCoins();
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }

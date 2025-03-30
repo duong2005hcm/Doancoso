@@ -1296,6 +1296,7 @@ GameObject:
   - component: {fileID: 585253886}
   - component: {fileID: 585253887}
   - component: {fileID: 585253888}
+  - component: {fileID: 585253889}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1432,6 +1433,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinText: {fileID: 2006942629}
   coinIcon: {fileID: 1380218581}
+--- !u!114 &585253889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585253877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89f8e0f24c9c49a4c95fae96fe55242b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &599775661
 GameObject:
   m_ObjectHideFlags: 0
@@ -3466,7 +3479,6 @@ GameObject:
   - component: {fileID: 1231371199}
   - component: {fileID: 1231371198}
   - component: {fileID: 1231371200}
-  - component: {fileID: 1231371201}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3642,18 +3654,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da2ac95c68bb09744b53b0b44bfb5d7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1231371201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1231371193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3a289cb6f3202a43bd096c977a9ab76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1233941185
@@ -6960,9 +6960,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b56fe51164d8842bf4e08c78a7aa60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverPanel: {fileID: 0}
-  metersText: {fileID: 0}
-  coinText: {fileID: 0}
+  gameOverPanel: {fileID: 1061136885}
+  metersText: {fileID: 209418554}
+  coinText: {fileID: 1687978829}
 --- !u!114 &2064765067
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,18 +1,21 @@
 ﻿using UnityEngine;
 using Firebase.Database;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine.UI;
+using Firebase.Extensions;
 
 public class FirebaseItemsManager : MonoBehaviour
 {
     public static FirebaseItemsManager Instance;
 
-    [SerializeField] private Transform itemContainer; // Gán Content của ScrollView
-    [SerializeField] private GameObject itemPrefab; // Gán prefab item
+    [SerializeField] private Transform itemContainer; // Content của ScrollView
+    [SerializeField] private GameObject itemPrefab;   // Prefab của item
 
     private DatabaseReference dbReference;
     private List<GameObject> itemObjects = new List<GameObject>();
+    private string currentCategory = "";
+    private bool isLoading = false; // 🛑 Chặn load trùng lặp
 
     private void Awake()
     {
@@ -22,68 +25,70 @@ public class FirebaseItemsManager : MonoBehaviour
 
     private void Start()
     {
-        LoadShopItems();
+        LoadShopItems("supportItem"); // Mặc định tải danh mục đầu tiên
     }
 
-    public void LoadShopItems(string category = "supportItem")
+    public void LoadShopItems(string category)
     {
-        Debug.Log($"🔄 Đang tải vật phẩm trong danh mục: {category}");
+        if (isLoading) return; // 🛑 Chặn load lại nếu chưa hoàn tất
+        if (currentCategory == category) return; // 🛑 Chặn load lại danh mục đang hiển thị
 
-        dbReference.Child("Shop").GetValueAsync().ContinueWith(task =>
+        isLoading = true;
+        currentCategory = category;
+
+        Debug.Log($"🔄 Đang tải danh mục: {category}");
+
+        // 🛑 Xóa tất cả vật phẩm cũ
+        foreach (var item in itemObjects)
+        {
+            Destroy(item);
+        }
+        itemObjects.Clear(); // ✅ Đảm bảo danh sách trống hoàn toàn
+
+        dbReference.Child("Shop").GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
                 DataSnapshot snapshot = task.Result;
-                Debug.Log($"✅ Số vật phẩm trong Shop: {snapshot.ChildrenCount}");
+                Debug.Log($"📊 Đọc dữ liệu Firebase, có {snapshot.ChildrenCount} vật phẩm.");
 
-                ClearShopUI();
-
-                foreach (DataSnapshot itemData in snapshot.Children)
+                foreach (var item in snapshot.Children)
                 {
-                    string type = itemData.Child("type").Value.ToString();
-                    if (type != category) continue;
+                    string itemId = item.Key;
+                    string itemType = item.Child("type").Value.ToString();
+                    if (itemType != category) continue;
 
-                    string id = itemData.Key;
-                    string name = itemData.Child("name").Value.ToString();
-                    string currency = itemData.Child("currency").Value.ToString();
-                    string description = itemData.Child("description").Value.ToString();
-                    int price = int.Parse(itemData.Child("price").Value.ToString());
-                    string imageName = itemData.Child("imageURL").Value.ToString(); // Đảm bảo chỉ lưu tên file
+                    string itemName = item.Child("name").Value.ToString();
+                    string currency = item.Child("currency").Value.ToString();
+                    string description = item.Child("description").Value.ToString();
+                    int price = int.Parse(item.Child("price").Value.ToString());
+                    string imageName = item.Child("imageURL").Value.ToString();
 
-                    Debug.Log($"🛒 Đọc vật phẩm: {name}, ID: {id}, Ảnh: {imageName}");
-
-                    LoadItemImage(id, name, type, price, currency, description, imageName);
+                    CreateItemUI(itemId, itemName, itemType, price, currency, description, imageName);
                 }
-            }
-            else
-            {
-                Debug.LogError("❌ Lỗi khi lấy dữ liệu Shop từ Firebase!");
+
+                isLoading = false; // ✅ Đánh dấu load xong
             }
         });
     }
 
-    private void ClearShopUI()
+    private void CreateItemUI(string id, string name, string type, int price, string currency, string description, string imageName)
     {
-        foreach (Transform child in itemContainer)
-        {
-            Destroy(child.gameObject);
-        }
-        itemObjects.Clear();
-    }
-
-    private void LoadItemImage(string id, string name, string type, int price, string currency, string description, string imageName)
-    {
-        Debug.Log($"🛠️ Đang tạo Item: {name}");  // Log kiểm tra
         Sprite itemSprite = Resources.Load<Sprite>($"Images/Items/{imageName}");
-
         if (itemSprite == null)
         {
-            Debug.LogWarning($"❌ Không tìm thấy ảnh: {imageName} trong Resources/Images/Items/");
+            Debug.LogWarning($"Không tìm thấy ảnh: {imageName}");
             return;
         }
 
         GameObject itemObject = Instantiate(itemPrefab, itemContainer);
-        Debug.Log($"✅ Tạo thành công: {name} - Gán vào {itemContainer.name}"); // Log kiểm tra
-        itemObject.GetComponent<ItemUI>().Setup(id, name, type, price, currency, description, itemSprite);
+        ItemUI itemUI = itemObject.GetComponent<ItemUI>();
+
+        if (itemUI != null)
+        {
+            itemUI.Setup(id, name, type, price, currency, description, itemSprite);
+        }
+
+        itemObjects.Add(itemObject); // ✅ Lưu vào danh sách để xóa sau này
     }
 }
