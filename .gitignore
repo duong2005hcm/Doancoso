@@ -59,7 +59,6 @@ sysinfo.txt
 *.apk
 *.aab
 *.unitypackage
-*.unitypackage.meta
 *.app
 
 # Crashlytics generated file
@@ -71,3 +70,19 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+# Firebase config files
+google-services.json
+google-services-desktop.json
+*.keystore
+*.p12
+*.pem
+*.ctr
+*.key
+*.pft
+# Ignore Firebase large files
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-*.bundle
+<<<<<<< HEAD
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-*.so
+=======
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-*.somas
+>>>>>>> 728d8b499450da4981ba6b8a395732332a69c6c9
