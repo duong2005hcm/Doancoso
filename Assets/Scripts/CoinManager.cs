@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using Firebase.Database;
+using Firebase.Auth;
 using TMPro;
 using UnityEngine.UI;
 
@@ -6,37 +8,74 @@ public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance;
 
-    [SerializeField] private TextMeshProUGUI coinText;  // Text để hiển thị số coin
-    [SerializeField] private Image coinIcon;           // Icon của coin
+    [SerializeField] private TextMeshProUGUI coinText;
+    [SerializeField] private Image coinIcon;
 
-    private int currentCoins = 0; // Số coin thu thập được trong màn chơi
+    private int totalCoins;
+    private int collectedCoinsThisRun;
+    private DatabaseReference dbReference;
+    private string userId;
+    private bool isGameOver = false;
 
     private void Awake()
     {
         Instance = this;
+        dbReference = FirebaseDatabase.DefaultInstance.RootReference;
+
+        FirebaseUser user = FirebaseAuth.DefaultInstance.CurrentUser;
+        userId = user != null ? user.UserId : "1GmBi8crvxOqrze0mEBkXXHyVBs1";
+
+        LoadMoneyFromFirebase();
     }
 
-    private void Start()
+    private void LoadMoneyFromFirebase()
     {
+        dbReference.Child("Users").Child(userId).Child("coins").GetValueAsync().ContinueWith(task =>
+        {
+            if (task.IsCompleted && task.Result.Exists)
+            {
+                totalCoins = int.Parse(task.Result.Value.ToString());
+            }
+            else
+            {
+                totalCoins = 0;
+            }
+        });
+
+        collectedCoinsThisRun = 0;
         UpdateCoinUI();
     }
 
-    // Gọi hàm này khi người chơi thu thập coin
-    public void AddCoin(int amount)
+    public void AddMoney(int moneyToAdd)
     {
-        currentCoins += amount;
+        collectedCoinsThisRun += moneyToAdd;
         UpdateCoinUI();
     }
 
-    // Cập nhật UI
+    public int GetCollectedCoinsThisRun()
+    {
+        return collectedCoinsThisRun;
+    }
+
+    public void SaveMoney()
+    {
+        totalCoins += collectedCoinsThisRun;
+        dbReference.Child("Users").Child(userId).Child("coins").SetValueAsync(totalCoins);
+
+        isGameOver = true;
+    }
+
+    public void ResetCoins()
+    {
+        if (!isGameOver) return;
+        collectedCoinsThisRun = 0;
+        isGameOver = false;
+        UpdateCoinUI();
+    }
+
     private void UpdateCoinUI()
     {
-        coinText.text = currentCoins.ToString();
-    }
-
-    // Lấy số coin trong màn chơi (có thể dùng khi lưu vào database)
-    public int GetCollectedCoins()
-    {
-        return currentCoins;
+        if (coinText != null)
+            coinText.text = collectedCoinsThisRun.ToString();
     }
 }

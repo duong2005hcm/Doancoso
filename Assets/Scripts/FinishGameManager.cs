@@ -6,74 +6,45 @@ public class FinishGameManager : MonoBehaviour
 {
     public static FinishGameManager Instance;
 
-
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TextMeshProUGUI metersText;
+    [SerializeField] private TextMeshProUGUI coinText;
 
-    // Thêm Awake() để kiểm tra
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-
-            // Tự động tìm nếu chưa gán reference
-            if (gameOverPanel == null)
-                gameOverPanel = GameObject.Find("GameOverPanel"); // Hoặc đường dẫn cụ thể
-
-            if (metersText == null && gameOverPanel != null)
-                metersText = gameOverPanel.GetComponentInChildren<TextMeshProUGUI>();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Instance = this;
     }
 
     public void FinishGame()
     {
-        // Kiểm tra null trước khi sử dụng
-        if (gameOverPanel == null)
-        {
-            Debug.LogError("GameOverPanel reference is missing!");
-            return;
-        }
-
-        if (metersText == null)
-        {
-            Debug.LogError("MetersText reference is missing!");
-            return;
-        }
-
         Time.timeScale = 0;
         gameOverPanel.SetActive(true);
-
-        if (PlayerMoney.Instance != null)
-            PlayerMoney.Instance.SaveMoney();
-        else
-            Debug.LogWarning("PlayerMoney.Instance is null");
+        CoinManager.Instance.SaveMoney();
 
         if (MetersManager.Instance != null)
         {
             float meters = MetersManager.Instance.GetMetersTraveled();
             metersText.text = "Quãng đường đã chạy: " + (int)meters + " m";
         }
-        else
+
+        if (coinText != null)
         {
-            Debug.LogWarning("MetersManager.Instance is null");
+            int collectedCoins = CoinManager.Instance.GetCollectedCoinsThisRun();
+            coinText.text = "Xu đã thu thập: " + collectedCoins;
         }
     }
 
     public void RestartGame()
     {
         Time.timeScale = 1;
+        CoinManager.Instance.ResetCoins();
         SceneManager.LoadScene("Gameplay", LoadSceneMode.Single);
     }
 
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1;
+        CoinManager.Instance.ResetCoins();
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }

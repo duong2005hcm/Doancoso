@@ -743,9 +743,8 @@ GameObject:
   - component: {fileID: 291625796}
   - component: {fileID: 291625795}
   - component: {fileID: 291625794}
-  - component: {fileID: 291625797}
   m_Layer: 5
-  m_Name: Button
+  m_Name: InsufficientFundsButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -814,19 +813,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 291625795}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 291625797}
-        m_TargetAssemblyTypeName: PurchaseManager, Assembly-CSharp
-        m_MethodName: CloseInsufficientFundsPanel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &291625795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -865,21 +852,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 291625792}
   m_CullTransparentMesh: 1
---- !u!114 &291625797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 291625792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ce0bd26c32401245bf0e1ab5f20fe35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  insufficientFundsPanel: {fileID: 0}
-  purchaseSuccessPanel: {fileID: 0}
-  itemDetailPanel: {fileID: 0}
 --- !u!1 &365511433
 GameObject:
   m_ObjectHideFlags: 0
@@ -1071,7 +1043,6 @@ GameObject:
   - component: {fileID: 386538646}
   - component: {fileID: 386538648}
   - component: {fileID: 386538647}
-  - component: {fileID: 386538649}
   m_Layer: 5
   m_Name: PurchaseSuccessPanel
   m_TagString: Untagged
@@ -1138,21 +1109,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 386538645}
   m_CullTransparentMesh: 1
---- !u!114 &386538649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 386538645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ce0bd26c32401245bf0e1ab5f20fe35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  insufficientFundsPanel: {fileID: 0}
-  purchaseSuccessPanel: {fileID: 0}
-  itemDetailPanel: {fileID: 0}
 --- !u!1 &406653198
 GameObject:
   m_ObjectHideFlags: 0
@@ -1302,7 +1258,7 @@ GameObject:
   - component: {fileID: 408968095}
   - component: {fileID: 408968094}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: InsufficientFundsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1485,7 +1441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.8066038, g: 0.8066038, b: 0.8066038, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2102,7 +2058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8066038, g: 0.8066038, b: 0.8066038, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2908,8 +2864,9 @@ GameObject:
   - component: {fileID: 833682207}
   - component: {fileID: 833682209}
   - component: {fileID: 833682210}
-  - component: {fileID: 833682211}
   - component: {fileID: 833682212}
+  - component: {fileID: 833682213}
+  - component: {fileID: 833682214}
   m_Layer: 0
   m_Name: ShopManager
   m_TagString: Untagged
@@ -2972,21 +2929,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemContainer: {fileID: 2046319761}
   itemPrefab: {fileID: 4570868029849475911, guid: 22b4b717387df4f4eaae94f9b04057fb, type: 3}
---- !u!114 &833682211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 833682204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ce0bd26c32401245bf0e1ab5f20fe35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  insufficientFundsPanel: {fileID: 1607008945}
-  purchaseSuccessPanel: {fileID: 386538645}
-  itemDetailPanel: {fileID: 847694751}
 --- !u!114 &833682212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3003,6 +2945,47 @@ MonoBehaviour:
   characterButton: {fileID: 985303966}
   skinButton: {fileID: 219578881}
   exitShopButton: {fileID: 1531706431}
+--- !u!114 &833682213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833682204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33139ba35c12f854894c4c8e8a5c07a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detailPanel: {fileID: 847694751}
+  itemImage: {fileID: 1801405824}
+  itemNameText: {fileID: 1354683843}
+  originalPriceText: {fileID: 755992130}
+  itemPriceText: {fileID: 755992130}
+  currencyIcon: {fileID: 423043135}
+  descriptionText: {fileID: 1925135890}
+  quantitySlider: {fileID: 1147644933}
+  quantityText: {fileID: 638013785}
+  purchaseButton: {fileID: 1206918167}
+  purchaseCurrencyIcon: {fileID: 1941364582}
+  purchasePriceText: {fileID: 1923459424}
+  returnButton: {fileID: 1892976386}
+--- !u!114 &833682214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833682204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ce0bd26c32401245bf0e1ab5f20fe35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  purchaseSuccessPanel: {fileID: 386538645}
+  successCloseButton: {fileID: 2095631548}
+  insufficientFundsPanel: {fileID: 1607008945}
+  insufficientCloseButton: {fileID: 291625794}
 --- !u!1 &847694751
 GameObject:
   m_ObjectHideFlags: 0
@@ -3014,7 +2997,6 @@ GameObject:
   - component: {fileID: 847694752}
   - component: {fileID: 847694754}
   - component: {fileID: 847694753}
-  - component: {fileID: 847694756}
   m_Layer: 5
   m_Name: ItemDetailPanel
   m_TagString: Untagged
@@ -3080,27 +3062,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 847694751}
   m_CullTransparentMesh: 1
---- !u!114 &847694756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 847694751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33139ba35c12f854894c4c8e8a5c07a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detailPanel: {fileID: 847694751}
-  itemImage: {fileID: 1801405824}
-  itemNameText: {fileID: 1354683843}
-  itemPriceText: {fileID: 755992130}
-  currencyIcon: {fileID: 423043135}
-  descriptionText: {fileID: 1925135890}
-  quantitySlider: {fileID: 1147644933}
-  quantityText: {fileID: 638013785}
-  purchaseButton: {fileID: 1206918167}
 --- !u!1 &909199221
 GameObject:
   m_ObjectHideFlags: 0
@@ -4106,7 +4067,6 @@ GameObject:
   - component: {fileID: 1206918169}
   - component: {fileID: 1206918168}
   - component: {fileID: 1206918167}
-  - component: {fileID: 1206918171}
   m_Layer: 5
   m_Name: PurchaseButton
   m_TagString: Untagged
@@ -4178,19 +4138,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1206918168}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1206918171}
-        m_TargetAssemblyTypeName: ItemDetailManager, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1206918168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4229,27 +4177,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1206918165}
   m_CullTransparentMesh: 1
---- !u!114 &1206918171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1206918165}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33139ba35c12f854894c4c8e8a5c07a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detailPanel: {fileID: 0}
-  itemImage: {fileID: 0}
-  itemNameText: {fileID: 0}
-  itemPriceText: {fileID: 0}
-  currencyIcon: {fileID: 0}
-  descriptionText: {fileID: 0}
-  quantitySlider: {fileID: 0}
-  quantityText: {fileID: 0}
-  purchaseButton: {fileID: 0}
 --- !u!1 &1328441801
 GameObject:
   m_ObjectHideFlags: 0
@@ -4933,7 +4860,6 @@ GameObject:
   - component: {fileID: 1607008946}
   - component: {fileID: 1607008948}
   - component: {fileID: 1607008947}
-  - component: {fileID: 1607008949}
   m_Layer: 5
   m_Name: InsufficientFundsPanel
   m_TagString: Untagged
@@ -5000,21 +4926,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1607008945}
   m_CullTransparentMesh: 1
---- !u!114 &1607008949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1607008945}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ce0bd26c32401245bf0e1ab5f20fe35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  insufficientFundsPanel: {fileID: 0}
-  purchaseSuccessPanel: {fileID: 386538645}
-  itemDetailPanel: {fileID: 0}
 --- !u!1 &1801405822
 GameObject:
   m_ObjectHideFlags: 0
@@ -5102,7 +5013,6 @@ GameObject:
   - component: {fileID: 1892976388}
   - component: {fileID: 1892976387}
   - component: {fileID: 1892976386}
-  - component: {fileID: 1892976390}
   m_Layer: 5
   m_Name: ReturnButton
   m_TagString: Untagged
@@ -5173,19 +5083,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1892976387}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1892976390}
-        m_TargetAssemblyTypeName: ItemDetailManager, Assembly-CSharp
-        m_MethodName: ClosePanel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1892976387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5224,27 +5122,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1892976384}
   m_CullTransparentMesh: 1
---- !u!114 &1892976390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1892976384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33139ba35c12f854894c4c8e8a5c07a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detailPanel: {fileID: 0}
-  itemImage: {fileID: 0}
-  itemNameText: {fileID: 0}
-  itemPriceText: {fileID: 0}
-  currencyIcon: {fileID: 0}
-  descriptionText: {fileID: 0}
-  quantitySlider: {fileID: 0}
-  quantityText: {fileID: 0}
-  purchaseButton: {fileID: 0}
 --- !u!1 &1900041050
 GameObject:
   m_ObjectHideFlags: 0
@@ -5316,8 +5193,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 7.783, y: 11.376}
-  m_SizeDelta: {x: -15.567, y: -22.752}
+  m_AnchoredPosition: {x: -60.79, y: 11.375999}
+  m_SizeDelta: {x: -121.578, y: -22.752}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1923459424
 MonoBehaviour:
@@ -5373,7 +5250,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -5478,7 +5355,7 @@ MonoBehaviour:
   m_text: "M\xF4 t\u1EA3"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: b246c4190f4e46ec9352fe15a7b09ce0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5641,7 +5518,7 @@ GameObject:
   - component: {fileID: 1944013549}
   - component: {fileID: 1944013548}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: PurchaseSuccessMessage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5889,17 +5766,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 4
+    m_Left: 50
+    m_Right: 50
+    m_Top: 50
+    m_Bottom: 50
+  m_ChildAlignment: 0
   m_StartCorner: 0
-  m_StartAxis: 1
-  m_CellSize: {x: 340, y: 400}
-  m_Spacing: {x: 20, y: 20}
-  m_Constraint: 1
-  m_ConstraintCount: 4
+  m_StartAxis: 0
+  m_CellSize: {x: 350, y: 450}
+  m_Spacing: {x: 50, y: 50}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!1 &2073204286
 GameObject:
   m_ObjectHideFlags: 0
@@ -6048,9 +5925,8 @@ GameObject:
   - component: {fileID: 2095631550}
   - component: {fileID: 2095631549}
   - component: {fileID: 2095631548}
-  - component: {fileID: 2095631551}
   m_Layer: 5
-  m_Name: Button
+  m_Name: PurchaseSuccessButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6119,19 +5995,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2095631549}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2095631551}
-        m_TargetAssemblyTypeName: PurchaseManager, Assembly-CSharp
-        m_MethodName: ClosePurchaseSuccessPanel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2095631549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6170,21 +6034,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2095631546}
   m_CullTransparentMesh: 1
---- !u!114 &2095631551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2095631546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ce0bd26c32401245bf0e1ab5f20fe35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  insufficientFundsPanel: {fileID: 0}
-  purchaseSuccessPanel: {fileID: 0}
-  itemDetailPanel: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

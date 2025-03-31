@@ -30,7 +30,7 @@ public class PlayerCurrencyManager : MonoBehaviour
         LoadCurrencyData();
     }
 
-    private void LoadCurrencyData()
+    public void LoadCurrencyData()
     {
         dbReference.Child("Users").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
         {
