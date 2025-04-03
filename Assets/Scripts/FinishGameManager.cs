@@ -38,6 +38,7 @@ public class FinishGameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         CoinManager.Instance.ResetCoins();
+        MetersManager.Instance.ResetMeters();
         SceneManager.LoadScene("Gameplay", LoadSceneMode.Single);
     }
 
@@ -45,6 +46,7 @@ public class FinishGameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         CoinManager.Instance.ResetCoins();
+        Destroy(CoinManager.Instance?.gameObject);
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }

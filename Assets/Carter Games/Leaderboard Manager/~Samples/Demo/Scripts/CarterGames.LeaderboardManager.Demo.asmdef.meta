@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 6e8ab7e1b09743d4084ec671b48c1dfc
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 177291
+  packageName: Leaderboard Manager | CG
+  packageVersion: 2.2.2
+  assetPath: Assets/Carter Games/Leaderboard Manager/~Samples/Demo/Scripts/CarterGames.LeaderboardManager.Demo.asmdef
+  uploadId: 664550

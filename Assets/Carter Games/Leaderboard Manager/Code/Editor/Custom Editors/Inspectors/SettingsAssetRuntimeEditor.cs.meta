@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 2f3fcf0dc14b44f1a4e66d42c3886b01
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {fileID: 2800000, guid: 43e3edb7ed39656478a7e760563760bf, type: 3}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 177291
+  packageName: Leaderboard Manager | CG
+  packageVersion: 2.2.2
+  assetPath: Assets/Carter Games/Leaderboard Manager/Code/Editor/Custom Editors/Inspectors/SettingsAssetRuntimeEditor.cs
+  uploadId: 664550

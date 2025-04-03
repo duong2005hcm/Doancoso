@@ -3,16 +3,16 @@ using UnityEngine.UI;
 
 public class Leaderboad : MonoBehaviour
 {
-    public GameObject panel; // Panel cần mở/đóng
-    public Button openButton; // Nút mở panel
-    public Button returnButton; // Nút đóng panel
+    public GameObject BXHPanel; // Panel cần mở/đóng
+    public Button ButtonBXH; // Nút mở panel
+    public Button Return; // Nút đóng panel
 
         public void OpenPanel()
     {
-        panel.SetActive(true);
+        BXHPanel.SetActive(true);
     }
     public void ClosePanel()
     {
-        panel.SetActive(false);
+        BXHPanel.SetActive(false);
     }
 }

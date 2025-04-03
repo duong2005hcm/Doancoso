@@ -1297,6 +1297,7 @@ GameObject:
   - component: {fileID: 585253887}
   - component: {fileID: 585253888}
   - component: {fileID: 585253889}
+  - component: {fileID: 585253890}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1397,7 +1398,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseGamePanel: {fileID: 175260359}
   pauseButton: {fileID: 1873783462}
-  settingsPanel: {fileID: 21886101}
   canPause: 1
 --- !u!114 &585253887
 MonoBehaviour:
@@ -1443,6 +1443,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89f8e0f24c9c49a4c95fae96fe55242b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &585253890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585253877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b46206900de0be34a86a29faef4f4a18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &599775661
@@ -1743,7 +1755,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseGamePanel: {fileID: 0}
   pauseButton: {fileID: 1873783462}
-  settingsPanel: {fileID: 0}
   canPause: 1
 --- !u!1 &638944949
 GameObject:
@@ -2184,7 +2195,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseGamePanel: {fileID: 175260359}
   pauseButton: {fileID: 1873783462}
-  settingsPanel: {fileID: 21886101}
   canPause: 1
 --- !u!114 &737975345
 MonoBehaviour:
@@ -5169,7 +5179,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseGamePanel: {fileID: 0}
   pauseButton: {fileID: 1873783462}
-  settingsPanel: {fileID: 0}
   canPause: 1
 --- !u!1 &1730444940
 GameObject:
@@ -5741,7 +5750,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseGamePanel: {fileID: 175260359}
   pauseButton: {fileID: 1873783462}
-  settingsPanel: {fileID: 0}
   canPause: 1
 --- !u!114 &1873783465
 MonoBehaviour:
@@ -6621,7 +6629,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseGamePanel: {fileID: 175260359}
   pauseButton: {fileID: 1873783462}
-  settingsPanel: {fileID: 0}
   canPause: 1
 --- !u!1 &2039620661
 GameObject:
