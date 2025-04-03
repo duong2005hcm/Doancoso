@@ -7,139 +7,179 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Networking;
 using System.Linq;
+using System;
 
 public class LeaderboardDetail : MonoBehaviour
 {
-    private DatabaseReference dbReference;
-    public Transform contentTransform; // Content của ScrollView
-    public GameObject leaderboardEntryPrefab; // Prefab entry
+    public static LeaderboardDetail Instance;
 
-    private void ClearContent()
+    [Header("UI References")]
+    [SerializeField] private Transform contentTransform;
+    [SerializeField] private GameObject leaderboardEntryPrefab;
+
+    private DatabaseReference dbReference;
+    private List<GameObject> activeEntries = new List<GameObject>();
+
+    private void Awake()
     {
-        foreach (Transform child in contentTransform)
-        {
-            Destroy(child.gameObject);
-        }
+        Instance = this;
+        dbReference = FirebaseDatabase.DefaultInstance.GetReference("LeaderBoard");
     }
+
     private void Start()
     {
-        dbReference = FirebaseDatabase.DefaultInstance.RootReference;
-        Debug.Log("🚀 Starting Firebase Test...");
-
-        if (FirebaseDatabase.DefaultInstance == null)
-        {
-            Debug.LogError("❌ FirebaseDatabase not initialized!");
-        }
-        else
-        {
-            Debug.Log("✅ FirebaseDatabase is ready.");
-            LoadLeaderboard();
-        }
-    }
-
-    public void SubmitScore(string userId, string name, int highScore, string avatarURL)
-    {
-        User userData = new User(name, highScore, avatarURL);
-        string json = JsonUtility.ToJson(userData);
-        dbReference.Child("LeaderBoard").Child(userId).SetRawJsonValueAsync(json);
+        LoadLeaderboard();
     }
 
     public void LoadLeaderboard()
     {
-        Debug.Log("📡 Fetching leaderboard data...");
-        ClearContent(); // Xóa nội dung cũ trước khi tải mới
+        if (!CheckDependencies()) return;
 
-        dbReference.Child("LeaderBoard").OrderByChild("highScore").LimitToLast(10)
-        .GetValueAsync().ContinueWithOnMainThread(task => {
+        ClearExistingEntries();
+
+        dbReference.OrderByChild("highScore").LimitToLast(10).GetValueAsync()
+        .ContinueWithOnMainThread(task =>
+        {
             if (task.IsFaulted)
             {
-                Debug.LogError("❌ Load leaderboard failed: " + task.Exception);
+                Debug.LogError("Firebase error: " + task.Exception);
                 return;
             }
 
-            DataSnapshot snapshot = task.Result;
-            Debug.Log("📥 Data received from Firebase: " + snapshot.ChildrenCount);
-
-            if (snapshot.ChildrenCount == 0)
-            {
-                Debug.LogWarning("⚠️ No leaderboard data found!");
-                return;
-            }
-
-            // Tạo danh sách người chơi và sắp xếp
-            List<KeyValuePair<string, User>> players = new List<KeyValuePair<string, User>>();
-
-            foreach (DataSnapshot data in snapshot.Children)
-            {
-                string json = data.GetRawJsonValue();
-                User user = JsonUtility.FromJson<User>(json);
-                players.Add(new KeyValuePair<string, User>(data.Key, user));
-            }
-
-            // Sắp xếp giảm dần theo điểm
-            players.Sort((a, b) => b.Value.highScore.CompareTo(a.Value.highScore));
-
-            // Tạo UI entry cho mỗi người chơi
-            for (int i = 0; i < players.Count; i++)
-            {
-                var player = players[i];
-                StartCoroutine(CreateLeaderboardEntry(
-                    i + 1, // Rank
-                    player.Value.displayName,
-                    player.Value.highScore,
-                    player.Value.avatarType
-                ));
-            }
+            ProcessLeaderboardData(task.Result);
         });
     }
 
-    private IEnumerator RefreshScrollView()
+    private bool CheckDependencies()
     {
-        yield return new WaitForEndOfFrame(); // Đợi 1 frame để giao diện cập nhật
-        LayoutRebuilder.ForceRebuildLayoutImmediate(contentTransform.GetComponent<RectTransform>());
+        if (contentTransform == null)
+        {
+            Debug.LogError("Missing content transform reference!");
+            return false;
+        }
+
+        if (leaderboardEntryPrefab == null)
+        {
+            Debug.LogError("Missing leaderboard entry prefab!");
+            return false;
+        }
+
+        if (dbReference == null)
+        {
+            Debug.LogError("Firebase not initialized!");
+            return false;
+        }
+
+        return true;
     }
 
-
-    private IEnumerator CreateLeaderboardEntry(int rank, string name, int score, string avatarURL)
+    private void ClearExistingEntries()
     {
-        GameObject entry = Instantiate(leaderboardEntryPrefab, contentTransform);
-        LeaderboardUI entryUI = entry.GetComponent<LeaderboardUI>();
-
-        if (entryUI != null)
+        foreach (var entry in activeEntries)
         {
-            Sprite avatarSprite = null;
-            if (!string.IsNullOrEmpty(avatarURL))
-            {
-                using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(avatarURL))
-                {
-                    yield return request.SendWebRequest();
+            Destroy(entry);
+        }
+        activeEntries.Clear();
+    }
 
-                    if (request.result == UnityWebRequest.Result.Success)
-                    {
-                        Texture2D texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
-                        avatarSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-                    }
-                }
-            }
+    private void ProcessLeaderboardData(DataSnapshot snapshot)
+    {
+        var players = new List<LeaderboardPlayer>();
 
-            entryUI.Setup(rank, name, score, avatarSprite);
+        foreach (DataSnapshot userSnapshot in snapshot.Children)
+        {
+            var player = ParsePlayerData(userSnapshot);
+            if (player != null) players.Add(player);
+        }
+
+        DisplaySortedPlayers(players.OrderByDescending(p => p.score).ToList());
+    }
+
+    private LeaderboardPlayer ParsePlayerData(DataSnapshot snapshot)
+    {
+        try
+        {
+            return new LeaderboardPlayer(
+                snapshot.Child("displayName").Value.ToString(),
+                Convert.ToSingle(snapshot.Child("highScore").Value),
+                snapshot.Child("avatarURL").Value.ToString()
+            );
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"Failed to parse player data: {e.Message}");
+            return null;
         }
     }
 
+    private void DisplaySortedPlayers(List<LeaderboardPlayer> sortedPlayers)
+    {
+        for (int i = 0; i < sortedPlayers.Count; i++)
+        {
+            CreateLeaderboardEntry(i + 1, sortedPlayers[i]);
+        }
+        StartCoroutine(RefreshLayout());
+    }
 
+    private void CreateLeaderboardEntry(int rank, LeaderboardPlayer player)
+    {
+        var entry = Instantiate(leaderboardEntryPrefab, contentTransform);
+        activeEntries.Add(entry);
+
+        StartCoroutine(LoadAndSetupEntry(entry.GetComponent<LeaderboardUI>(), rank, player));
+    }
+
+    private IEnumerator LoadAndSetupEntry(LeaderboardUI entryUI, int rank, LeaderboardPlayer player)
+    {
+        if (entryUI == null) yield break;
+
+        Sprite avatarSprite = null;
+
+        if (!string.IsNullOrEmpty(player.avatarURL))
+        {
+            yield return LoadAvatar(player.avatarURL, sprite => avatarSprite = sprite);
+        }
+
+        entryUI.Setup(rank, player.name, Mathf.RoundToInt(player.score), avatarSprite);
+    }
+
+    private IEnumerator LoadAvatar(string url, System.Action<Sprite> callback)
+    {
+        using (var request = UnityWebRequestTexture.GetTexture(url))
+        {
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                var texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+                callback?.Invoke(Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero));
+            }
+            else
+            {
+                Debug.LogWarning($"Failed to load avatar: {request.error}");
+                callback?.Invoke(null);
+            }
+        }
+    }
+
+    private IEnumerator RefreshLayout()
+    {
+        yield return new WaitForEndOfFrame();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(contentTransform.GetComponent<RectTransform>());
+    }
 }
 
 [System.Serializable]
-public class User
+public class LeaderboardPlayer
 {
-    public string displayName;
-    public int highScore;
-    public string avatarType; // Đổi tên từ avatarURL nếu cần thống nhất
+    public string name;
+    public float score;
+    public string avatarURL;
 
-    public User(string name, int highScore, string avatarType)
+    public LeaderboardPlayer(string name, float score, string avatarURL)
     {
-        this.displayName = name;
-        this.highScore = highScore;
-        this.avatarType = avatarType;
+        this.name = name;
+        this.score = score;
+        this.avatarURL = avatarURL;
     }
 }
