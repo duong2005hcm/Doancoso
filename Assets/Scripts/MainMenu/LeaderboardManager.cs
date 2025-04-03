@@ -1,28 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement; // Thêm namespace này để quản lý Scene
 
-public class Leaderboard : MonoBehaviour
+public class Leaderboad : MonoBehaviour
 {
-    public Button ButtonBXH; // Nút mở leaderboard
-    public Button Return; // Nút quay lại
+    public GameObject BXHPanel; // Panel cần mở/đóng
+    public Button ButtonBXH; // Nút mở panel
+    public Button Return; // Nút đóng panel
 
-    private void Start()
+    public void OpenPanel()
     {
-        // Gán sự kiện click cho các nút
-        ButtonBXH.onClick.AddListener(OpenLeaderboardScene);
-        Return.onClick.AddListener(ReturnToPreviousScene);
+        BXHPanel.SetActive(true);
     }
-
-    public void OpenLeaderboardScene()
+    public void ClosePanel()
     {
-        // Tải Scene LeaderBoard
-        SceneManager.LoadScene("LeaderBoard",LoadSceneMode.Single);
-    }
-
-    public void ReturnToPreviousScene()
-    {
-        // Quay lại Scene trước đó
-        SceneManager.LoadScene("MainMenu");
+        BXHPanel.SetActive(false);
     }
 }
